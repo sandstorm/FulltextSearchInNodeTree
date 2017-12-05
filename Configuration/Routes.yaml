@@ -1,0 +1,9 @@
+-
+  name: 'Fulltext Search in Node Tree'
+  uriPattern: 'neos/node-tree-fulltext-search'
+  defaults:
+    '@package': 'Sandstorm.FulltextSearchInNodeTree'
+    '@controller': 'FulltextSearch'
+    '@action':     'index'
+  appendExceedingArguments: TRUE
+  httpMethods: ['GET', 'POST']

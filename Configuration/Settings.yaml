@@ -1,0 +1,25 @@
+Neos:
+  Neos:
+    Ui:
+      resources:
+        javascript:
+          'Sandstorm.FulltextSearchInNodeTree:FulltextSearchInNodeTree':
+            resource: resource://Sandstorm.FulltextSearchInNodeTree/Public/FulltextSearchInNodeTree/Plugin.js
+        stylesheets:
+          'Sandstorm.FulltextSearchInNodeTree:FulltextSearchInNodeTree':
+            resource: resource://Sandstorm.FulltextSearchInNodeTree/Public/FulltextSearchInNodeTree/Plugin.css
+
+  Flow:
+    security:
+      authentication:
+        providers:
+          'Neos.Neos:Backend':
+            requestPatterns:
+              'Sandstorm.FulltextSearchInNodeTree:Controllers':
+                pattern: ControllerObjectName
+                patternOptions:
+                  controllerObjectNamePattern: 'Sandstorm\FulltextSearchInNodeTree\Controller\.*'
+    mvc:
+      routes:
+        Sandstorm.FulltextSearchInNodeTree:
+          position: 'before Neos.Neos.Ui'

@@ -1,0 +1,14 @@
+privilegeTargets:
+
+  'Neos\Flow\Security\Authorization\Privilege\Method\MethodPrivilege':
+
+    'Sandstorm.FulltextSearchInNodeTree:FulltextSearchBackend':
+      matcher: 'method(Sandstorm\FulltextSearchInNodeTree\Controller\FulltextSearchController->(index)Action())'
+
+roles:
+
+  'Neos.Neos:Editor':
+    privileges:
+      -
+        privilegeTarget: 'Sandstorm.FulltextSearchInNodeTree:FulltextSearchBackend'
+        permission: GRANT
