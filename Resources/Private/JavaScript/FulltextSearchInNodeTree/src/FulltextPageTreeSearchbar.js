@@ -3,12 +3,11 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import debounce from 'lodash.debounce';
 import {$get} from 'plow-js';
-
+import {Icon, IconButton, TextInput} from '@neos-project/react-ui-components';
 import {neos} from '@neos-project/neos-ui-decorators';
 import {actions} from './redux/index';
 import {selectors} from '@neos-project/neos-ui-redux-store'
 import style from './style.css';
-import NodeTreeSearchInput from './NodeTreeSearchInput';
 
 const searchDelay = 300;
 
@@ -25,9 +24,7 @@ export default class FulltextNodeTreeSearchBar extends PureComponent {
     }
 
     state = {
-        searchFocused: false,
-        searchValue: '',
-        filterNodeType: null
+        searchValue: ''
     };
 
     constructor(props, ...args) {
@@ -39,51 +36,42 @@ export default class FulltextNodeTreeSearchBar extends PureComponent {
     handleSearchChange = query => {
         const {rootNode} = this.props;
         const contextPath = $get('contextPath', rootNode);
-        this.debouncedCommenceSearch(contextPath, {query, filterNodeType: this.state.filterNodeType});
+        this.debouncedCommenceSearch(contextPath, {query});
         this.setState({searchValue: query});
-    }
-
-    handleFilterChange = filterNodeType => {
-        const {rootNode, commenceSearch} = this.props;
-        const contextPath = $get('contextPath', rootNode);
-        commenceSearch(contextPath, {query: this.state.searchValue, filterNodeType});
-        this.setState({filterNodeType});
-    }
-
-    handleSearchFocus = () => {
-        this.setState({searchFocused: true});
-    }
-
-    handleSearchBlur = () => {
-        this.setState({searchFocused: false});
     }
 
     handleClearClick = () => {
         const {commenceSearch, rootNode} = this.props;
         const contextPath = $get('contextPath', rootNode);
         this.setState({
-            searchValue: '',
-            showClear: false
+            searchValue: ''
         });
-        commenceSearch(contextPath, {query: '', filterNodeType: this.state.filterNodeType});
+        commenceSearch(contextPath, {query: ''});
     }
 
     render() {
-        const {searchValue, searchFocused, filterNodeType} = this.state;
-
-        const {rootNode} = this.props;
-        const contextPath = $get('contextPath', rootNode);
+        const {searchValue} = this.state;
 
         return (
             <div className={style.searchBar}>
-                <NodeTreeSearchInput
-                    value={searchValue}
-                    focused={searchFocused}
-                    onChange={this.handleSearchChange}
-                    onFocus={this.handleSearchFocus}
-                    onBlur={this.handleSearchBlur}
-                    onClearClick={this.handleClearClick}
+                <Icon
+                    icon="search"
+                    className={style.placeholderIcon}
+                    onClick={this.handleClearClick}
                 />
+                <TextInput
+                    placeholder="Volltext-Suche"
+                    onChange={this.handleSearchChange}
+                    type="search"
+                    value={searchValue}
+                    containerClassName={style.searchInput}
+                />
+                {(searchValue.length > 0) && (
+                    <IconButton
+                        icon="times"
+                        onClick={this.handleClearClick}
+                    />
+                )}
             </div>
         );
     }

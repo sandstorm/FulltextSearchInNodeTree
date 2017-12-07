@@ -59,7 +59,6 @@ export function * watchFulltextSearch({configuration}) {
             const resultContextPaths = new Set(Object.keys(nodes));
             const oldHidden = yield select($get('ui.pageTree.hidden'));
             const hiddenContextPaths = oldHidden.subtract(resultContextPaths);
-            console.log("RES", resultContextPaths, oldHidden, hiddenContextPaths);
 
             const toggledContextPaths = [];
             const intermediateContextPaths = [];

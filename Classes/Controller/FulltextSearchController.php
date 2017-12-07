@@ -29,13 +29,19 @@ class FulltextSearchController extends \Neos\Flow\Mvc\Controller\ActionControlle
     protected $nodeSearchService;
 
     /**
+     * @Flow\InjectConfiguration(path="mode")
+     * @var string
+     */
+    protected $mode;
+
+    /**
      * @param NodeInterface $site
      * @param string $searchQuery
      */
     public function indexAction(NodeInterface $site, $searchQuery)
     {
 
-        $nodes = $this->nodeSearchService->findByProperties($searchQuery, ['Neos.Neos:Node'], $site->getContext(), $site);
+        $nodes = $this->findNodes($site, $searchQuery);
 
         $pageNodes = [];
         foreach ($nodes as $node) {
@@ -47,5 +53,28 @@ class FulltextSearchController extends \Neos\Flow\Mvc\Controller\ActionControlle
         $nodeInfoHelper = new NodeInfoHelper();
         $result = $nodeInfoHelper->renderNodesWithParents($pageNodes, $this->getControllerContext());
         return json_encode($result);
+    }
+
+    /**
+     * @param NodeInterface $site
+     * @param string $searchQuery
+     * @return array
+     */
+    protected function findNodes(NodeInterface $site, $searchQuery)
+    {
+
+        if ($this->mode === 'nodeSearchIndividualTerms') {
+            return $this->nodeSearchService->findByProperties(str_replace(' ', '%', $searchQuery), ['Neos.Neos:Node'], $site->getContext(), $site);
+        }
+        if ($this->mode === 'nodeSearchFullString') {
+            return $this->nodeSearchService->findByProperties($searchQuery, ['Neos.Neos:Node'], $site->getContext(), $site);
+        }
+
+        if ($this->mode === 'elasticsearch' || $this->mode === 'simplesearch') {
+            $searchHelper =new \Neos\ContentRepository\Search\Eel\SearchHelper();
+            return $searchHelper->query($site)->fulltext($searchQuery)->execute();
+        }
+
+        throw new \Exception('Search Mode "' . $this->mode . '" not found; only "nodeSearchFullString", "nodeSearchIndividualTerms", "elasticsearch" or "simplesearch" supported.');
     }
 }

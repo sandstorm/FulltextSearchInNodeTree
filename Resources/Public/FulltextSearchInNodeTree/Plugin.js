@@ -113,13 +113,13 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.reducer = exports.actions = exports.actionTypes = undefined;
 
-var _reduxActions = __webpack_require__(17);
+var _reduxActions = __webpack_require__(18);
 
-var _immutable = __webpack_require__(18);
+var _immutable = __webpack_require__(19);
 
 var _plowJs = __webpack_require__(1);
 
-var _utilsRedux = __webpack_require__(19);
+var _utilsRedux = __webpack_require__(20);
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -202,7 +202,7 @@ var _FulltextPageTreeSearchbar = __webpack_require__(10);
 
 var _FulltextPageTreeSearchbar2 = _interopRequireDefault(_FulltextPageTreeSearchbar);
 
-var _index = __webpack_require__(25);
+var _index = __webpack_require__(26);
 
 var _index2 = __webpack_require__(2);
 
@@ -346,19 +346,17 @@ var _lodash2 = _interopRequireDefault(_lodash);
 
 var _plowJs = __webpack_require__(1);
 
-var _neosUiDecorators = __webpack_require__(16);
+var _reactUiComponents = __webpack_require__(16);
+
+var _neosUiDecorators = __webpack_require__(17);
 
 var _index = __webpack_require__(2);
 
 var _neosUiReduxStore = __webpack_require__(3);
 
-var _style = __webpack_require__(20);
+var _style = __webpack_require__(21);
 
 var _style2 = _interopRequireDefault(_style);
-
-var _NodeTreeSearchInput = __webpack_require__(28);
-
-var _NodeTreeSearchInput2 = _interopRequireDefault(_NodeTreeSearchInput);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -391,48 +389,27 @@ var FulltextNodeTreeSearchBar = (_dec = (0, _reactRedux.connect)(function (state
         var _this = _possibleConstructorReturn(this, (_ref = FulltextNodeTreeSearchBar.__proto__ || Object.getPrototypeOf(FulltextNodeTreeSearchBar)).call.apply(_ref, [this, props].concat(args)));
 
         _this.state = {
-            searchFocused: false,
-            searchValue: '',
-            filterNodeType: null
+            searchValue: ''
         };
 
         _this.handleSearchChange = function (query) {
             var rootNode = _this.props.rootNode;
 
             var contextPath = (0, _plowJs.$get)('contextPath', rootNode);
-            _this.debouncedCommenceSearch(contextPath, { query: query, filterNodeType: _this.state.filterNodeType });
+            _this.debouncedCommenceSearch(contextPath, { query: query });
             _this.setState({ searchValue: query });
         };
 
-        _this.handleFilterChange = function (filterNodeType) {
-            var _this$props = _this.props,
-                rootNode = _this$props.rootNode,
-                commenceSearch = _this$props.commenceSearch;
-
-            var contextPath = (0, _plowJs.$get)('contextPath', rootNode);
-            commenceSearch(contextPath, { query: _this.state.searchValue, filterNodeType: filterNodeType });
-            _this.setState({ filterNodeType: filterNodeType });
-        };
-
-        _this.handleSearchFocus = function () {
-            _this.setState({ searchFocused: true });
-        };
-
-        _this.handleSearchBlur = function () {
-            _this.setState({ searchFocused: false });
-        };
-
         _this.handleClearClick = function () {
-            var _this$props2 = _this.props,
-                commenceSearch = _this$props2.commenceSearch,
-                rootNode = _this$props2.rootNode;
+            var _this$props = _this.props,
+                commenceSearch = _this$props.commenceSearch,
+                rootNode = _this$props.rootNode;
 
             var contextPath = (0, _plowJs.$get)('contextPath', rootNode);
             _this.setState({
-                searchValue: '',
-                showClear: false
+                searchValue: ''
             });
-            commenceSearch(contextPath, { query: '', filterNodeType: _this.state.filterNodeType });
+            commenceSearch(contextPath, { query: '' });
         };
 
         _this.debouncedCommenceSearch = (0, _lodash2.default)(props.commenceSearch, searchDelay);
@@ -442,24 +419,27 @@ var FulltextNodeTreeSearchBar = (_dec = (0, _reactRedux.connect)(function (state
     _createClass(FulltextNodeTreeSearchBar, [{
         key: 'render',
         value: function render() {
-            var _state = this.state,
-                searchValue = _state.searchValue,
-                searchFocused = _state.searchFocused,
-                filterNodeType = _state.filterNodeType;
-            var rootNode = this.props.rootNode;
+            var searchValue = this.state.searchValue;
 
-            var contextPath = (0, _plowJs.$get)('contextPath', rootNode);
 
             return _react2.default.createElement(
                 'div',
                 { className: _style2.default.searchBar },
-                _react2.default.createElement(_NodeTreeSearchInput2.default, {
-                    value: searchValue,
-                    focused: searchFocused,
+                _react2.default.createElement(_reactUiComponents.Icon, {
+                    icon: 'search',
+                    className: _style2.default.placeholderIcon,
+                    onClick: this.handleClearClick
+                }),
+                _react2.default.createElement(_reactUiComponents.TextInput, {
+                    placeholder: 'Volltext-Suche',
                     onChange: this.handleSearchChange,
-                    onFocus: this.handleSearchFocus,
-                    onBlur: this.handleSearchBlur,
-                    onClearClick: this.handleClearClick
+                    type: 'search',
+                    value: searchValue,
+                    containerClassName: _style2.default.searchInput
+                }),
+                searchValue.length > 0 && _react2.default.createElement(_reactUiComponents.IconButton, {
+                    icon: 'times',
+                    onClick: this.handleClearClick
                 })
             );
         }
@@ -941,7 +921,7 @@ var _readFromConsumerApi2 = _interopRequireDefault(_readFromConsumerApi);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-module.exports = (0, _readFromConsumerApi2.default)('NeosProjectPackages')().NeosUiDecorators;
+module.exports = (0, _readFromConsumerApi2.default)('NeosProjectPackages')().ReactUiComponents;
 
 /***/ }),
 /* 17 */
@@ -956,7 +936,7 @@ var _readFromConsumerApi2 = _interopRequireDefault(_readFromConsumerApi);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-module.exports = (0, _readFromConsumerApi2.default)('vendor')().reduxActions;
+module.exports = (0, _readFromConsumerApi2.default)('NeosProjectPackages')().NeosUiDecorators;
 
 /***/ }),
 /* 18 */
@@ -971,7 +951,7 @@ var _readFromConsumerApi2 = _interopRequireDefault(_readFromConsumerApi);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-module.exports = (0, _readFromConsumerApi2.default)('vendor')().Immutable;
+module.exports = (0, _readFromConsumerApi2.default)('vendor')().reduxActions;
 
 /***/ }),
 /* 19 */
@@ -986,16 +966,31 @@ var _readFromConsumerApi2 = _interopRequireDefault(_readFromConsumerApi);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-module.exports = (0, _readFromConsumerApi2.default)('NeosProjectPackages')().UtilsRedux;
+module.exports = (0, _readFromConsumerApi2.default)('vendor')().Immutable;
 
 /***/ }),
 /* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
+"use strict";
+
+
+var _readFromConsumerApi = __webpack_require__(0);
+
+var _readFromConsumerApi2 = _interopRequireDefault(_readFromConsumerApi);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+module.exports = (0, _readFromConsumerApi2.default)('NeosProjectPackages')().UtilsRedux;
+
+/***/ }),
+/* 21 */
+/***/ (function(module, exports, __webpack_require__) {
+
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(21);
+var content = __webpack_require__(22);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // Prepare cssTransformation
 var transform;
@@ -1003,7 +998,7 @@ var transform;
 var options = {"hmr":true}
 options.transform = transform
 // add the styles to the DOM
-var update = __webpack_require__(23)(content, options);
+var update = __webpack_require__(24)(content, options);
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -1020,30 +1015,25 @@ if(false) {
 }
 
 /***/ }),
-/* 21 */
+/* 22 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(22)(undefined);
+exports = module.exports = __webpack_require__(23)(undefined);
 // imports
 
 
 // module
-exports.push([module.i, ":root {}\n\n\n:root {}\n\n\n:root {}\n\n\n:root {}\n\n\n:root {}\n\n\n:root {}\n\n\n:root {}\n\n\n:root {}\n\n\n:root {}\n\n\n:root {}\n\n\n:root {}\n\n\n:root {}\n\n\n:root {}\n\n\n:root {}\n\n\n:root {}\n\n\n:root {}\n\n\n:root {}\n\n\n:root {}\n\n\n:root {}\n\n\n:root {}\n\n\n:root {}\n\n\n:root {}\n\n\n:root {}\n\n\n:root {}\n\n\n:root {}\n\n\n:root {}\n\n\n:root {}\n\n\n:root {}\n\n\n:root {}\n\n\n:root {}\n\n\n:root {}\n\n\n:root {}\n\n\n:root {}\n\n\n:root {}\n\n\n:root {}\n\n\n:root {}\n\n\n:root {}\n\n\n:root {}\n\n\n:root {}\n\n\n:root {}\n\n\n:root {}\n\n\n:root {}\n\n\n:root {}\n\n\n:root {}\n\n\n:root {}\n\n\n:root {}\n\n\n:root {}\n\n\n:root {}\n\n\n:root {}\n\n\n:root {}\n\n\n:root {}\n\n\n:root {}\n\n\n.style__searchBar___1Wqhk {\n    line-height: 0;\n    border-bottom: 1px solid #3f3f3f;\n    background-color: #323232;\n}\n\n\n.style__searchInput____0fx1 {\n    -ms-flex-positive: 1;\n        flex-grow: 1;\n}\n\n\n.style__searchInput____0fx1 {\n    /* magic number, sorry */\n    padding-left: 32px;\n}\n\n\n.style__searchInput--focused___1MxrJ {\n    padding-left: 0;\n}\n\n\n.style__clearButton___15szQ {\n    background: #323232;\n}\n\n\n.style__clearButton--focused___10An- {\n    background: white;\n}\n\n\n.style__clearButton--focused___10An- > i {\n    color: #323232;\n}\n\n\n.style__wrapper___cQFyX {\n    display: -ms-flexbox;\n    display: flex;\n    border-right: 1px solid #3f3f3f;\n}\n\n\n.style__hidden___19oHq {\n    display: none;\n}\n\n\n.style__placeholderIcon___RHRNi {\n    position: absolute;\n    left: 16px;\n    line-height: 40px;\n}\n", ""]);
+exports.push([module.i, ":root {}\n\n:root {}\n\n:root {}\n\n:root {}\n\n:root {}\n\n:root {}\n\n:root {}\n\n:root {}\n\n:root {}\n\n:root {}\n\n:root {}\n\n:root {}\n\n:root {}\n\n:root {}\n\n:root {}\n\n:root {}\n\n:root {}\n\n:root {}\n\n:root {}\n\n:root {}\n\n:root {}\n\n:root {}\n\n:root {}\n\n:root {}\n\n:root {}\n\n:root {}\n\n:root {}\n\n:root {}\n\n:root {}\n\n:root {}\n\n:root {}\n\n:root {}\n\n:root {}\n\n:root {}\n\n:root {}\n\n:root {}\n\n:root {}\n\n:root {}\n\n:root {}\n\n:root {}\n\n:root {}\n\n:root {}\n\n:root {}\n\n:root {}\n\n:root {}\n\n:root {}\n\n:root {}\n\n:root {}\n\n:root {}\n\n:root {}\n\n:root {}\n\n:root {}\n\n.style__searchBar___1Wqhk {\n    line-height: 0;\n    border-bottom: 1px solid #3f3f3f;\n    background-color: #323232;\n    display: -ms-flexbox;\n    display: flex;\n}\n\n.style__searchInput____0fx1 {\n    -ms-flex-positive: 1;\n        flex-grow: 1;\n    /* magic number, sorry */\n    padding-left: 32px;\n}\n\n.style__placeholderIcon___RHRNi {\n    position: absolute;\n    left: 16px;\n    line-height: 40px !important;\n}\n", ""]);
 
 // exports
 exports.locals = {
 	"searchBar": "style__searchBar___1Wqhk",
 	"searchInput": "style__searchInput____0fx1",
-	"searchInput--focused": "style__searchInput--focused___1MxrJ",
-	"clearButton": "style__clearButton___15szQ",
-	"clearButton--focused": "style__clearButton--focused___10An-",
-	"wrapper": "style__wrapper___cQFyX",
-	"hidden": "style__hidden___19oHq",
 	"placeholderIcon": "style__placeholderIcon___RHRNi"
 };
 
 /***/ }),
-/* 22 */
+/* 23 */
 /***/ (function(module, exports) {
 
 /*
@@ -1125,7 +1115,7 @@ function toComment(sourceMap) {
 
 
 /***/ }),
-/* 23 */
+/* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /*
@@ -1181,7 +1171,7 @@ var singleton = null;
 var	singletonCounter = 0;
 var	stylesInsertedAtTop = [];
 
-var	fixUrls = __webpack_require__(24);
+var	fixUrls = __webpack_require__(25);
 
 module.exports = function(list, options) {
 	if (typeof DEBUG !== "undefined" && DEBUG) {
@@ -1497,7 +1487,7 @@ function updateLink (link, options, obj) {
 
 
 /***/ }),
-/* 24 */
+/* 25 */
 /***/ (function(module, exports) {
 
 
@@ -1592,7 +1582,7 @@ module.exports = function (css) {
 
 
 /***/ }),
-/* 25 */
+/* 26 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1603,7 +1593,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.watchFulltextSearch = watchFulltextSearch;
 
-var _effects = __webpack_require__(26);
+var _effects = __webpack_require__(27);
 
 var _plowJs = __webpack_require__(1);
 
@@ -1611,7 +1601,7 @@ var _index = __webpack_require__(2);
 
 var _neosUiReduxStore = __webpack_require__(3);
 
-var _neosUiBackendConnector = __webpack_require__(27);
+var _neosUiBackendConnector = __webpack_require__(28);
 
 var _neosUiBackendConnector2 = _interopRequireDefault(_neosUiBackendConnector);
 
@@ -1709,7 +1699,7 @@ function watchFulltextSearch(_ref) {
                                         loadingDepth = configuration.nodeTree.loadingDepth;
 
                                         if (!(matchingNodes.length > 0)) {
-                                            _context.next = 43;
+                                            _context.next = 42;
                                             break;
                                         }
 
@@ -1728,9 +1718,6 @@ function watchFulltextSearch(_ref) {
                                     case 34:
                                         oldHidden = _context.sent;
                                         hiddenContextPaths = oldHidden.subtract(resultContextPaths);
-
-                                        console.log("RES", resultContextPaths, oldHidden, hiddenContextPaths);
-
                                         toggledContextPaths = [];
                                         intermediateContextPaths = [];
 
@@ -1756,14 +1743,14 @@ function watchFulltextSearch(_ref) {
                                             toggledContextPaths: toggledContextPaths,
                                             intermediateContextPaths: intermediateContextPaths
                                         };
-                                        _context.next = 43;
+                                        _context.next = 42;
                                         return (0, _effects.put)(_neosUiReduxStore.actions.UI.PageTree.setSearchResult(result));
 
-                                    case 43:
-                                        _context.next = 45;
+                                    case 42:
+                                        _context.next = 44;
                                         return (0, _effects.put)(_neosUiReduxStore.actions.UI.PageTree.setAsLoaded(contextPath));
 
-                                    case 45:
+                                    case 44:
                                     case 'end':
                                         return _context.stop();
                                 }
@@ -1780,7 +1767,7 @@ function watchFulltextSearch(_ref) {
 }
 
 /***/ }),
-/* 26 */
+/* 27 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1795,7 +1782,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 module.exports = (0, _readFromConsumerApi2.default)('vendor')().reduxSagaEffects;
 
 /***/ }),
-/* 27 */
+/* 28 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1817,120 +1804,6 @@ exports.default = (0, _readFromConsumerApi2.default)('NeosProjectPackages')().Ne
 
 var fetchWithErrorHandling = (0, _readFromConsumerApi2.default)('NeosProjectPackages')().NeosUiBackendConnector.fetchWithErrorHandling;
 exports.fetchWithErrorHandling = fetchWithErrorHandling;
-
-/***/ }),
-/* 28 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _react = __webpack_require__(11);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _propTypes = __webpack_require__(12);
-
-var _propTypes2 = _interopRequireDefault(_propTypes);
-
-var _reactUiComponents = __webpack_require__(29);
-
-var _classnames = __webpack_require__(30);
-
-var _classnames2 = _interopRequireDefault(_classnames);
-
-var _style = __webpack_require__(20);
-
-var _style2 = _interopRequireDefault(_style);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-var NodeTreeSearchInput = function NodeTreeSearchInput(_ref) {
-    var _mergeClassNames;
-
-    var value = _ref.value,
-        label = _ref.label,
-        onChange = _ref.onChange,
-        onFocus = _ref.onFocus,
-        onBlur = _ref.onBlur,
-        onClearClick = _ref.onClearClick,
-        focused = _ref.focused;
-
-    var showClear = value.length > 0;
-    var inputClassName = (0, _classnames2.default)((_mergeClassNames = {}, _defineProperty(_mergeClassNames, _style2.default.searchInput, true), _defineProperty(_mergeClassNames, _style2.default['searchInput--focused'], focused), _mergeClassNames));
-    return _react2.default.createElement(
-        'div',
-        { className: _style2.default.wrapper },
-        _react2.default.createElement(_reactUiComponents.Icon, {
-            icon: 'search',
-            className: focused ? _style2.default.hidden : _style2.default.placeholderIcon,
-            theme: { iconButton: focused ? _style2.default['clearButton--focused'] : _style2.default.clearButton },
-            onClick: onClearClick
-        }),
-        _react2.default.createElement(_reactUiComponents.TextInput, {
-            placeholder: 'Volltext-Suche',
-            onChange: onChange,
-            onFocus: onFocus,
-            onBlur: onBlur,
-            type: 'search',
-            value: value,
-            containerClassName: inputClassName
-        }),
-        showClear && _react2.default.createElement(_reactUiComponents.IconButton, {
-            icon: 'times',
-            theme: { iconButton: focused ? _style2.default['clearButton--focused'] : _style2.default.clearButton },
-            onClick: onClearClick
-        })
-    );
-};
-
-NodeTreeSearchInput.propTypes = {
-    value: _propTypes2.default.any,
-    label: _propTypes2.default.string,
-    onChange: _propTypes2.default.func,
-    onFocus: _propTypes2.default.func,
-    onBlur: _propTypes2.default.func,
-    onClearClick: _propTypes2.default.func,
-    focused: _propTypes2.default.bool
-};
-
-exports.default = NodeTreeSearchInput;
-
-/***/ }),
-/* 29 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var _readFromConsumerApi = __webpack_require__(0);
-
-var _readFromConsumerApi2 = _interopRequireDefault(_readFromConsumerApi);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-module.exports = (0, _readFromConsumerApi2.default)('NeosProjectPackages')().ReactUiComponents;
-
-/***/ }),
-/* 30 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var _readFromConsumerApi = __webpack_require__(0);
-
-var _readFromConsumerApi2 = _interopRequireDefault(_readFromConsumerApi);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-module.exports = (0, _readFromConsumerApi2.default)('vendor')().classnames;
 
 /***/ })
 /******/ ]);

@@ -1,3 +1,20 @@
+Sandstorm:
+  FulltextSearchInNodeTree:
+
+    # the search backend to use. Supports:
+    # - "nodeSearchIndividualTerms": use the NodeSearchService, which uses simple SQL LIKE queries for fulltext search.
+    #              Every whitespace is replaced by "%", i.e. the search string "Welcome Neos" matches "Welcome to Neos".
+    # - "nodeSearchFullString": use the NodeSearchService, which uses simple SQL LIKE queries for the fulltext search.
+    #              Always searches for literal string matches; i.e. when typing "Welcome Neos", it will match "my Welcome Neos Post",
+    #              but NOT "Welcome to Neos"
+    # - "elasticsearch": Use Flowpack.Elasticsearch.ContentRepositoryAdaptor (which needs to be installed and configured separately)
+    #              As it uses Elasticsearch under the hood, is also performant with huge data sets; but needs more configuration.
+    # - "simplesearch": Use Flowpack.SimpleSearch.ContentRepositoryAdaptor (which needs to be installed and configured separately)
+    #              Uses sqlite FULLTEXT Index for fulltext indexing. More lightweight than "elasticsearch"; might be faster than
+    #              "nodeSearch*".
+    mode: nodeSearchIndividualTerms
+
+
 Neos:
   Neos:
     Ui:
